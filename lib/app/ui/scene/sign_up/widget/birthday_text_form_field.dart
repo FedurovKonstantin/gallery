@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/data/gateway/helpers.dart';
+import 'package:gallery/data/utils/helpers.dart';
 import 'package:multi_masked_formatter/multi_masked_formatter.dart';
 
 class BirthdayTextFormField extends StatefulWidget {

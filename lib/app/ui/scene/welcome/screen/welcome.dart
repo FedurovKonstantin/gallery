@@ -7,7 +7,7 @@ import 'package:gallery/app/ui/scene/sign_up/bloc/sign_up_bloc.dart';
 import 'package:gallery/app/ui/scene/sign_up/screen/sign_up.dart';
 import 'package:gallery/app/ui/scene/welcome/widget/welcome_action_button.dart';
 import 'package:gallery/app/ui/scene/welcome/widget/welcome_logo.dart';
-import 'package:gallery/data/gateway/helpers.dart';
+import 'package:gallery/data/utils/helpers.dart';
 import 'package:gallery/repository/firebase/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../widget/welcome_title.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gallery/data/gateway/helpers.dart';
+import 'package:gallery/data/utils/helpers.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   TextEditingController _controller;

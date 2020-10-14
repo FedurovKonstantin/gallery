@@ -11,7 +11,7 @@ import 'package:gallery/app/ui/scene/sign_in/widget/password_text_form_field.dar
 import 'package:gallery/app/ui/scene/sign_up/bloc/sign_up_bloc.dart';
 import 'package:gallery/app/ui/scene/sign_up/widget/birthday_text_form_field.dart';
 import 'package:gallery/app/ui/scene/sign_up/widget/name_text_form_field.dart';
-import 'package:gallery/data/gateway/helpers.dart';
+import 'package:gallery/data/utils/helpers.dart';
 import 'package:gallery/repository/firebase/firebase_auth.dart';
 
 class SignUp extends StatefulWidget {

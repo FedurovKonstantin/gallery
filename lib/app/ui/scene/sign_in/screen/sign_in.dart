@@ -10,7 +10,7 @@ import 'package:gallery/app/ui/scene/sign_in/widget/email_text_form_field.dart';
 import 'package:gallery/app/ui/scene/sign_in/widget/password_text_form_field.dart';
 import 'package:gallery/app/ui/scene/sign_in/widget/sub_title_sign_in.dart';
 import 'package:gallery/app/ui/scene/sign_up/screen/sign_up.dart';
-import 'package:gallery/data/gateway/helpers.dart';
+import 'package:gallery/data/utils/helpers.dart';
 import 'package:gallery/repository/firebase/firebase_auth.dart';
 
 class SignIn extends StatefulWidget {
