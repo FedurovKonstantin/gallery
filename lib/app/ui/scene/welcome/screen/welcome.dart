@@ -17,35 +17,36 @@ class Welcome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WelcomeLogo(),
-          WelcomeTitle('Welcome!'),
-          WelcomeActionButton(
-            'Create an account',
-            Colors.white,
-            Colors.black,
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignUp(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            WelcomeLogo(),
+            WelcomeTitle('Welcome!'),
+            WelcomeActionButton(
+              'Create an account',
+              Colors.white,
+              Colors.black,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignUp(),
+                ),
               ),
             ),
-          ),
-          WelcomeActionButton(
-            'I already have an account',
-            Colors.black,
-            Colors.white,
-            () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignIn(),
+            WelcomeActionButton(
+              'I already have an account',
+              Colors.black,
+              Colors.white,
+              () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignIn(),
+                ),
               ),
             ),
-          ),
-        ],
-      )),
+          ],
+        ),
+      ),
     );
   }
 }

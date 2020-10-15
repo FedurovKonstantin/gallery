@@ -1,7 +1,13 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:gallery/app/resources/app_colors.dart';
+import 'package:gallery/app/ui/custom_widgets/big_button.dart';
+import 'package:gallery/app/ui/scene/add_data/screen/add_data.dart';
+import 'package:gallery/app/ui/scene/add_photo/widget/add_photo_app_bar.dart';
+import 'package:gallery/app/ui/scene/add_photo/widget/add_photo_image.dart';
 import 'package:gallery/data/entity/photo.dart';
 import 'package:gallery/data/entity/user.dart';
+import 'package:gallery/data/utils/helpers.dart';
 import 'package:gallery/repository/firebase/firebase_database.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,78 +23,70 @@ class AddPhoto extends StatefulWidget {
 }
 
 class _AddPhotoState extends State<AddPhoto> {
-  String _imageUrl;
+  File _image;
+  ImagePicker _imagePicker = ImagePicker();
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            'Next',
-          ),
-        ),
+      key: _scaffoldKey,
+      backgroundColor: Color(0xffF3F3F3),
+      appBar: AddPhotoAppBar(
+        func: () => _goToAddData(image: _image, context: context),
       ),
       body: Column(
         children: [
-          (_imageUrl != null)
-              ? Image.network(_imageUrl)
-              : Placeholder(
-                  fallbackHeight: 250,
-                ),
-          SizedBox(
-            height: 50,
+          Container(
+            height: Helpers.responsiveHeight(1, context),
+            color: dividerColor,
           ),
-          RaisedButton(
-            onPressed: _uploadImage,
-            color: Colors.deepPurple,
-            child: Text(
-              'download',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
+          SizedBox(
+            height: Helpers.responsiveHeight(62, context),
+          ),
+          AddPhotoImage(
+            image: _image,
+          ),
+          SizedBox(
+            height: Helpers.responsiveHeight(63, context),
+          ),
+          BigButton(
+            title: 'Select photo',
+            backgroundColor: Colors.white,
+            titleColor: Colors.black,
+            func: _getImage,
           ),
         ],
       ),
     );
   }
 
-  _uploadImage() async {
-    final _storage = FirebaseStorage.instance;
-    final _picker = ImagePicker();
-    PickedFile image;
+  _getImage() async {
+    final image = await _imagePicker.getImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image.path);
+    });
+  }
 
-    await Permission.photos.request();
-    var permissionStatus = await Permission.photos.status;
-
-    if (permissionStatus.isGranted) {
-      image = await _picker.getImage(source: ImageSource.gallery);
-      var file = File(image.path);
-      var name = image.path.split('/').last;
-      print(name);
-      if (image != null) {
-        var snapshot =
-            await _storage.ref().child('images/$name').putFile(file).onComplete;
-
-        var dowloadedUrl = await snapshot.ref.getDownloadURL();
-        await FirebaseDatabase().addPhoto(
-          Photo(
-            creatorsEmail: widget.user.email,
-            imageUrl: name,
-          ),
-        );
-        setState(
-          () {
-            _imageUrl = dowloadedUrl;
-            print(_imageUrl);
-          },
-        );
-      } else {
-        print('No path received');
-      }
+  _goToAddData({File image, BuildContext context}) {
+    if (image == null) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          content: Text('фото не выбрано'),
+        ),
+      );
     } else {
-      print('Grant permission and try again');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return AddData(
+              file: _image,
+              user: widget.user,
+            );
+          },
+        ),
+      );
     }
   }
 }
