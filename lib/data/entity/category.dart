@@ -3,9 +3,8 @@ class Category {
   Category({
     String title,
   }) : _title = title;
-  Map<String, dynamic> toJson() {
-    return {
-      "title": _title,
-    };
+  @override
+  String toString() {
+    return _title;
   }
 }

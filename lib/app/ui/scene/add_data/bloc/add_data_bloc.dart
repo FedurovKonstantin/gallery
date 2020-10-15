@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:gallery/data/entity/tag.dart';
 
 part 'add_data_event.dart';
 part 'add_data_state.dart';

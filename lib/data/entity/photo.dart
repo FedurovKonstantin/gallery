@@ -1,4 +1,5 @@
 import 'package:gallery/data/entity/category.dart';
+import 'package:gallery/data/entity/tag.dart';
 
 class Photo {
   String _title;
@@ -7,18 +8,21 @@ class Photo {
   DateTime _createdDate;
   int _viewCounter;
   String _creatorsEmail;
-  List<Category> _categories;
+  Category _category;
+  List<Tag> _tags;
   String get imageUrl => _imageUrl;
   Photo({
     String title,
     String description,
     String imageUrl,
+    Category category,
     DateTime createdDate,
     int viewCounter,
     String creatorsEmail,
-    List<Category> categories,
+    List<Tag> tags,
   })  : _title = title,
-        _categories = categories,
+        _tags = tags,
+        _category = category,
         _description = description,
         _imageUrl = imageUrl,
         _createdDate = createdDate,
@@ -32,8 +36,9 @@ class Photo {
       "imageUrl": _imageUrl,
       "createdDate": _createdDate,
       "viewCounter": _viewCounter,
+      "category": _category.toString(),
       "creatorsEmail": _creatorsEmail,
-      "categories": _categories
+      "tags": _tags
           ?.map(
             (e) => e.toJson(),
           )
