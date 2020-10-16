@@ -50,7 +50,7 @@ class _SignUpState extends State<SignUp> {
   final focus2 = FocusNode();
   final focus3 = FocusNode();
   final focus4 = FocusNode();
-  _checkCredentials() async {}
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -60,8 +60,7 @@ class _SignUpState extends State<SignUp> {
         },
         child: Scaffold(
           body: BlocProvider(
-            create: (context) =>
-                SignUpBloc(authenticationRepository: FirebaseAuth()),
+            create: (context) => SignUpBloc(),
             child: BlocConsumer<SignUpBloc, SignUpState>(
               listener: (context, state) {
                 if (state is SignUpSuccessfully) {

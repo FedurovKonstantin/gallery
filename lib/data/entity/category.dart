@@ -1,10 +1,10 @@
 class Category {
-  final String _title;
+  final String title;
   Category({
-    String title,
-  }) : _title = title;
+    this.title,
+  });
   @override
   String toString() {
-    return _title;
+    return title;
   }
 }

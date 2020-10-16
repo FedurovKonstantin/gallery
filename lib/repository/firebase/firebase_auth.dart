@@ -5,35 +5,28 @@ import 'package:gallery/data/entity/user.dart';
 import 'firebase_database.dart';
 
 class FirebaseAuth {
-  firebase_auth.FirebaseAuth _auth;
-  FirebaseAuth({
-    firebase_auth.FirebaseAuth firebaseAuth,
-  }) : _auth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
+  firebase_auth.FirebaseAuth _auth = firebase_auth.FirebaseAuth.instance;
 
-  Stream<User> get user {
-    return _auth.authStateChanges().map((firebaseUser) {
-      return firebaseUser == null ? null : User(id: firebaseUser.uid);
-    });
-  }
-
-  Future<void> signUp({
-    String email,
-    String password,
-    String name,
-    String birthday,
-  }) async {
+  Future<User> signUp(
+      {String email, String password, String name, String birthday}) async {
     try {
       firebase_auth.UserCredential result =
           await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      User user = User(id: result.user.uid);
-      await FirebaseDatabase(uid: user.id).updateUserData(
+      await FirebaseDatabase(uid: result.user.uid).updateUserData(
         name,
         password,
         email,
         birthday,
+      );
+      return User(
+        id: result.user.uid,
+        email: email,
+        name: name,
+        birthday: birthday,
+        password: password,
       );
     } catch (e) {
       throw Exception(e);
@@ -50,20 +43,19 @@ class FirebaseAuth {
     }
   }
 
-  Future<void> logInWithEmailAndPassword({
-    String email,
-    String password,
-  }) async {
+  Future<User> logInWithEmailAndPassword(
+      {String email, String password}) async {
     try {
-      await _auth.signInWithEmailAndPassword(
+      firebase_auth.UserCredential result =
+          await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final user =
+          await FirebaseDatabase(uid: result.user.uid).getUserData(email);
+      return user;
     } catch (e) {
       throw Exception(e);
     }
   }
 }
-// User _userFromFirebaseuser(firebase_auth.FirebaseUser user) {
-//   return user != null ? User(id: user.uid) : null;
-// }

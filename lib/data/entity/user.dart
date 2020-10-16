@@ -13,5 +13,12 @@ class User {
     this.password,
   });
 
-  static const empty = User(id: '');
+  factory User.fromJson({Map<String, dynamic> json}) {
+    return User(
+        email: json["email"],
+        id: json["id"],
+        name: json["name"],
+        password: json["password"],
+        birthday: json["birthday"]);
+  }
 }

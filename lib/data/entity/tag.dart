@@ -1,11 +1,11 @@
 class Tag {
-  final String _title;
+  final String title;
   Tag({
-    String title,
-  }) : _title = title;
+    this.title,
+  });
   Map<String, dynamic> toJson() {
     return {
-      "title": _title,
+      "title": title,
     };
   }
 }

@@ -10,46 +10,23 @@ part 'sign_up_event.dart';
 part 'sign_up_state.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  StreamSubscription<User> _userSubscription;
-  FirebaseAuth _authenticationRepository;
-  SignUpBloc({
-    FirebaseAuth authenticationRepository,
-  })  : _authenticationRepository = authenticationRepository,
-        super(
-          SignUpInitial(),
-        ) {
-    _userSubscription = _authenticationRepository.user?.listen((user) {
-      print(1);
-      add(
-        SignUpCheckUserStatus(user: user),
-      );
-    });
-  }
-  @override
-  Future<void> close() {
-    _userSubscription?.cancel();
-    return super.close();
-  }
+  SignUpBloc() : super(SignUpInitial());
 
   @override
   Stream<SignUpState> mapEventToState(
     SignUpEvent event,
   ) async* {
-    if (event is SignUpCheckUserStatus) {
-      if (event.user == null) {
-        yield SignUpFailed();
-      } else {
-        yield SignUpSuccessfully(user: event.user);
-      }
-    }
     if (event is SignUpCheckCredentials) {
       try {
         yield SignUpLoading();
-        await _authenticationRepository.signUp(
+        User user = await FirebaseAuth().signUp(
           email: event.email,
           password: event.password,
           name: event.name,
           birthday: event.birthday,
+        );
+        yield SignUpSuccessfully(
+          user: user,
         );
         //await _authenticationRepository.logInWithEmailAndPassword(
         //  email: event.email, password: event.password);

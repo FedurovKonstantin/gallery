@@ -46,8 +46,7 @@ class _SignInState extends State<SignIn> {
         },
         child: Scaffold(
           body: BlocProvider(
-            create: (context) =>
-                SignInBloc(authenticationRepository: FirebaseAuth()),
+            create: (context) => SignInBloc(),
             child: BlocConsumer<SignInBloc, SignInState>(
               listener: (context, state) {
                 if (state is SignInSuccessfully) {
