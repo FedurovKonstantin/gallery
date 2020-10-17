@@ -47,7 +47,9 @@ class _HomeState extends State<Home> {
                   ),
                 );
               }
-              _currentPage = index;
+              if (index != 1) {
+                _currentPage = index;
+              }
             },
           );
         },

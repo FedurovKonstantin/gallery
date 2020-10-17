@@ -6,3 +6,5 @@ abstract class MainEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class MainFetchPhotos extends MainEvent {}

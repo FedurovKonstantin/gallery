@@ -5,7 +5,7 @@ class Photo {
   String title;
   String description;
   String imageUrl;
-  DateTime createdDate;
+  String createdDate;
   int viewCounter;
   String id;
   String creatorsEmail;
@@ -23,7 +23,25 @@ class Photo {
     this.creatorsEmail,
     this.tags,
   });
-
+  factory Photo.fromJson(Map<String, dynamic> json) {
+    return Photo(
+      title: json["title"],
+      description: json["description"],
+      imageUrl: json["imageUrl"],
+      id: json["id"],
+      category: (json["category"] as List<dynamic>)
+          .map((e) => Category(title: e))
+          .toList(),
+      createdDate: json["createdDate"],
+      viewCounter: json["viewCounter"],
+      creatorsEmail: json["creatorsEmail"],
+      tags: (json["tags"] as List<dynamic>)
+          .map(
+            (e) => Tag(title: e),
+          )
+          .toList(),
+    );
+  }
   Map<String, dynamic> toJson() {
     return {
       "title": title,

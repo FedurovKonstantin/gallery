@@ -33,6 +33,8 @@ class _AddDataState extends State<AddData> {
   TextEditingController _descriptionContorller;
   TextEditingController _tagEditingController;
   List<AddDataTag> _tags;
+  final focus = FocusNode();
+
   @override
   void initState() {
     _nameContorller = TextEditingController();
@@ -56,7 +58,7 @@ class _AddDataState extends State<AddData> {
       AddDataTag(
         title: title,
         isNew: false,
-        id: DateTime.now().toUtc().toString(),
+        id: DateTime.now().toString(),
         removeFunc: removeTag,
       ),
     );
@@ -183,7 +185,10 @@ class _AddDataState extends State<AddData> {
                         runSpacing: Helpers.responsiveHeight(9, context),
                         children: _tags,
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: Helpers.responsiveHeight(16, context),
+                    ),
                   ],
                 ),
               );

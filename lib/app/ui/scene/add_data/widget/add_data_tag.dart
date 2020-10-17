@@ -121,7 +121,7 @@ class _AddDataTagState extends State<AddDataTag> {
           )
         : Container(
             padding: EdgeInsets.symmetric(
-              horizontal: Helpers.responsiveWidth(9, context),
+              horizontal: Helpers.responsiveWidth(10, context),
             ),
             height: Helpers.responsiveHeight(25, context),
             decoration: BoxDecoration(
@@ -148,7 +148,7 @@ class _AddDataTagState extends State<AddDataTag> {
                   ),
                 ),
                 SizedBox(
-                  width: Helpers.responsiveWidth(6, context),
+                  width: Helpers.responsiveWidth(5, context),
                 ),
                 GestureDetector(
                   onTap: () {

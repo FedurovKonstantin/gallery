@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gallery/data/entity/category.dart';
 import 'package:gallery/data/entity/photo.dart';
 import 'package:gallery/data/entity/user.dart';
 
@@ -11,7 +12,7 @@ class FirebaseDatabase {
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
   final CollectionReference _photoCollection =
-      FirebaseFirestore.instance.collection('photo');
+      FirebaseFirestore.instance.collection('photos');
 
   Future updateUserData(
     String name,
@@ -53,6 +54,33 @@ class FirebaseDatabase {
       await _photoCollection.doc(photo.id).set(photo.toJson());
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  // Future updatePhoto(Photo photo) async {
+  //   try {
+  //     await _photoCollection.doc(photo.id).set(photo.toJson());
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
+  Future<List<Photo>> getPhotos({
+    Category category,
+  }) async {
+    try {
+      var result = await _photoCollection
+          .where("category", arrayContains: category.title)
+          .get();
+      List<Photo> _photos = [];
+      result.docs.forEach((e) {
+        _photos.add(
+          Photo.fromJson(e.data()),
+        );
+      });
+      return _photos;
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }
