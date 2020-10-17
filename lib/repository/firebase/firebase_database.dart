@@ -50,7 +50,7 @@ class FirebaseDatabase {
 
   Future addPhoto(Photo photo) async {
     try {
-      await _photoCollection.doc(photo.imageUrl).set(photo.toJson());
+      await _photoCollection.doc(photo.id).set(photo.toJson());
     } catch (e) {
       print(e.toString());
     }

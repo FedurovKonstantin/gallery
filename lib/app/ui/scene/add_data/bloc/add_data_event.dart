@@ -8,31 +8,30 @@ abstract class AddDataEvent extends Equatable {
 }
 
 class AddTag extends AddDataEvent {
-  final String _title;
+  final String title;
   AddTag({
-    String title,
-  }) : _title = title;
+    this.title,
+  });
 
   @override
-  List<Object> get props => [_title];
+  List<Object> get props => [title];
 }
 
 class AddPhoto extends AddDataEvent {
-  final String _name;
-  final String _description;
-  final List<Tag> _tags;
-  final String _path;
+  final String name;
+  final String description;
+  final List<Tag> tags;
+  final File photo;
+  final String email;
   AddPhoto({
-    String name,
-    String description,
-    List<Tag> tags,
-    String path,
-  })  : _tags = tags,
-        _name = name,
-        _description = description,
-        _path = path;
+    this.name,
+    this.description,
+    this.tags,
+    this.photo,
+    this.email,
+  });
 
   @override
   // TODO: implement props
-  List<Object> get props => [_name, _description, _path, _tags];
+  List<Object> get props => [name, description, photo, tags, email];
 }

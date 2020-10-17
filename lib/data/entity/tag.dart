@@ -3,9 +3,8 @@ class Tag {
   Tag({
     this.title,
   });
-  Map<String, dynamic> toJson() {
-    return {
-      "title": title,
-    };
+  @override
+  String toString() {
+    return title;
   }
 }

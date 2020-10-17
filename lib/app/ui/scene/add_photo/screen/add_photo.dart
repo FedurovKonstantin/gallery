@@ -1,7 +1,9 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery/app/resources/app_colors.dart';
 import 'package:gallery/app/ui/custom_widgets/big_button.dart';
+import 'package:gallery/app/ui/scene/add_data/bloc/add_data_bloc.dart';
 import 'package:gallery/app/ui/scene/add_data/screen/add_data.dart';
 import 'package:gallery/app/ui/scene/add_photo/widget/add_photo_app_bar.dart';
 import 'package:gallery/app/ui/scene/add_photo/widget/add_photo_image.dart';
@@ -80,9 +82,12 @@ class _AddPhotoState extends State<AddPhoto> {
         context,
         MaterialPageRoute(
           builder: (BuildContext context) {
-            return AddData(
-              file: _image,
-              user: widget.user,
+            return BlocProvider(
+              create: (context) => AddDataBloc(),
+              child: AddData(
+                file: _image,
+                user: widget.user,
+              ),
             );
           },
         ),

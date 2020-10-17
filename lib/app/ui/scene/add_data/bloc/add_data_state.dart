@@ -9,29 +9,19 @@ abstract class AddDataState extends Equatable {
 
 class AddDataInitial extends AddDataState {}
 
+class AddDataLoading extends AddDataState {}
+
 class AddDataFailure extends AddDataState {
-  final String _error;
+  final String error;
   AddDataFailure({
-    String error,
-  }) : _error = error;
+    this.error,
+  });
+  @override
+  // TODO: implement props
+  List<Object> get props => [error];
 }
 
 class AddDataSuccess extends AddDataState {
-  final String _name;
-  final String _description;
-  final List<Tag> _tags;
-  final String _path;
-
-  AddDataSuccess({
-    String name,
-    String description,
-    List<Tag> tags,
-    String path,
-  })  : _tags = tags,
-        _name = name,
-        _description = description,
-        _path = path;
-
   @override
-  List<Object> get props => [_name, _description, _path, _tags];
+  List<Object> get props => [];
 }

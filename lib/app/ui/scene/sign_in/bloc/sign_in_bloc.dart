@@ -23,6 +23,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         yield SignInLoading();
         User user = await FirebaseAuth().logInWithEmailAndPassword(
             email: event.email, password: event.password);
+        if (user == null) {
+          yield SignInFailed(e: 'user is null');
+          return;
+        }
         yield SignInSuccessfully(user: user);
       } catch (e) {
         yield SignInFailed(e: e.message.message);

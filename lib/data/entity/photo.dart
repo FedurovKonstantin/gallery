@@ -7,14 +7,16 @@ class Photo {
   String imageUrl;
   DateTime createdDate;
   int viewCounter;
+  String id;
   String creatorsEmail;
-  Category category;
+  List<Category> category;
   List<Tag> tags;
 
   Photo({
     this.title,
     this.description,
     this.imageUrl,
+    this.id,
     this.category,
     this.createdDate,
     this.viewCounter,
@@ -27,13 +29,18 @@ class Photo {
       "title": title,
       "description": description,
       "imageUrl": imageUrl,
+      "id": id,
       "createdDate": createdDate,
       "viewCounter": viewCounter,
-      "category": category.toString(),
+      "category": category
+          .map(
+            (e) => e.toString(),
+          )
+          .toList(),
       "creatorsEmail": creatorsEmail,
       "tags": tags
           ?.map(
-            (e) => e.toJson(),
+            (e) => e.toString(),
           )
           ?.toList(),
     };
