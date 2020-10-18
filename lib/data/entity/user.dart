@@ -1,24 +1,28 @@
 class User {
-  final String id;
-  final String email;
-  final String birthday;
-  final String password;
-  final String name;
+  String id;
+  String email;
+  String birthday;
+  String password;
+  String name;
+  String imageUrl;
 
-  const User({
+  User({
     this.email,
     this.id,
     this.name,
     this.birthday,
     this.password,
+    this.imageUrl,
   });
 
   factory User.fromJson({Map<String, dynamic> json}) {
     return User(
-        email: json["email"],
-        id: json["id"],
-        name: json["name"],
-        password: json["password"],
-        birthday: json["birthday"]);
+      email: json["email"],
+      id: json["id"],
+      name: json["name"],
+      password: json["password"],
+      birthday: json["birthday"],
+      imageUrl: json["imageUrl"],
+    );
   }
 }

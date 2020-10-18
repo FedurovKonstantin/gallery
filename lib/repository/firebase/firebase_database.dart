@@ -19,6 +19,7 @@ class FirebaseDatabase {
     String password,
     String email,
     String birthday,
+    String imageUrl,
   ) async {
     return await _userCollection.doc(uid).set(
       {
@@ -27,8 +28,31 @@ class FirebaseDatabase {
         'password': password,
         'email': email,
         'birthday': birthday,
+        "imageUrl": imageUrl,
       },
     );
+  }
+
+  Stream getViews({String email}) {
+    return _photoCollection
+        .where("creatorsEmail", isEqualTo: email)
+        .snapshots();
+  }
+
+  Future<List<Photo>> getPhotosbyUsersEmail({String email}) async {
+    try {
+      var result =
+          await _photoCollection.where("creatorsEmail", isEqualTo: email).get();
+      List<Photo> _photos = [];
+      result.docs.forEach((e) {
+        _photos.add(
+          Photo.fromJson(e.data()),
+        );
+      });
+      return _photos;
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future<User> getUserData(
@@ -38,7 +62,6 @@ class FirebaseDatabase {
       var result = await _userCollection.get();
       User user;
       result.docs.forEach((e) {
-        print(e.data());
         if (e.data()["email"] == email) {
           user = User.fromJson(json: e.data());
         }

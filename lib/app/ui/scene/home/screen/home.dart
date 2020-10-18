@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery/app/ui/scene/add_photo/screen/add_photo.dart';
 import 'package:gallery/app/ui/scene/main/screen/main.dart';
+import 'package:gallery/app/ui/scene/profile/bloc/profile_bloc.dart';
+import 'package:gallery/app/ui/scene/profile/screen/profile.dart';
 import 'package:gallery/app/ui/scene/welcome/screen/welcome.dart';
 import 'package:gallery/data/entity/user.dart';
 import 'package:gallery/repository/firebase/firebase_auth.dart';
@@ -20,7 +23,13 @@ class _HomeState extends State<Home> {
     _pages = [
       Main(),
       Scaffold(),
-      Scaffold(),
+      BlocProvider(
+        create: (context) =>
+            ProfileBloc()..add(ProfileFetchPhotos(user: widget.user)),
+        child: Profile(
+          user: widget.user,
+        ),
+      ),
     ];
     _currentPage = 0;
     super.initState();

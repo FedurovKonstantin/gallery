@@ -20,6 +20,7 @@ class FirebaseAuth {
         password,
         email,
         birthday,
+        null,
       );
       return User(
         id: result.user.uid,
@@ -27,6 +28,7 @@ class FirebaseAuth {
         name: name,
         birthday: birthday,
         password: password,
+        imageUrl: null,
       );
     } catch (e) {
       throw Exception(e);

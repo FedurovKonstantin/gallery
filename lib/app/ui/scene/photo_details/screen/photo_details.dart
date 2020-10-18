@@ -15,14 +15,14 @@ class PhotoDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DetailsPhotoAppBar(),
-      body: SingleChildScrollView(
-        child: BlocConsumer<PhotoDetailsBloc, PhotoDetailsState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
-          builder: (context, state) {
-            if (state is PhotoDetailsSuccess) {
-              return Column(
+      body: BlocConsumer<PhotoDetailsBloc, PhotoDetailsState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state is PhotoDetailsSuccess) {
+            return SingleChildScrollView(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   DetailsPhotoImage(
@@ -67,39 +67,39 @@ class PhotoDetails extends StatelessWidget {
                     height: Helpers.responsiveHeight(16, context),
                   ),
                 ],
-              );
-            }
-            if (state is PhotoDetailsInitial) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CircularProgressIndicator(
-                      strokeWidth: 1,
-                      valueColor: new AlwaysStoppedAnimation<Color>(grey),
-                    ),
-                    SizedBox(
-                      height: Helpers.responsiveHeight(10, context),
-                    ),
-                    Text(
-                      'Loading...',
-                      style: Theme.of(context).textTheme.bodyText1.copyWith(
-                            fontSize: Helpers.responsiveHeight(17, context),
-                            color: grey,
-                          ),
-                    ),
-                  ],
-                ),
-              );
-            }
-            if (state is PhotoDetailsError) {
-              return Center(
-                child: Text(state.e),
-              );
-            }
-            return Container();
-          },
-        ),
+              ),
+            );
+          }
+          if (state is PhotoDetailsInitial) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    strokeWidth: 1,
+                    valueColor: new AlwaysStoppedAnimation<Color>(grey),
+                  ),
+                  SizedBox(
+                    height: Helpers.responsiveHeight(10, context),
+                  ),
+                  Text(
+                    'Loading...',
+                    style: Theme.of(context).textTheme.bodyText1.copyWith(
+                          fontSize: Helpers.responsiveHeight(17, context),
+                          color: grey,
+                        ),
+                  ),
+                ],
+              ),
+            );
+          }
+          if (state is PhotoDetailsError) {
+            return Center(
+              child: Text(state.e),
+            );
+          }
+          return Container();
+        },
       ),
     );
   }

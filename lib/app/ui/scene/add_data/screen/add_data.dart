@@ -40,7 +40,6 @@ class _AddDataState extends State<AddData> {
     _nameContorller = TextEditingController();
     _descriptionContorller = TextEditingController();
     _tagEditingController = TextEditingController();
-    print(widget.user.email);
     _tags = [
       AddDataTag(
           isNew: true,
