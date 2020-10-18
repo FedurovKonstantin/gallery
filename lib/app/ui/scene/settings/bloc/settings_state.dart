@@ -10,22 +10,20 @@ abstract class SettingsState extends Equatable {
 class SettingsInitial extends SettingsState {
   final User user;
 
-  SettingsInitial({this.user});
+  final String e;
+  SettingsInitial({this.user, this.e});
 }
 
 class SettingsLoading extends SettingsState {}
 
 class SettingsSavedSuccess extends SettingsState {
   final User user;
-
-  SettingsSavedSuccess({this.user});
-}
-
-class SettingsFailure extends SettingsState {
   final String e;
 
-  SettingsFailure({this.e});
+  SettingsSavedSuccess({this.user, this.e});
 }
+
+class SettingsFailure extends SettingsState {}
 
 // class SettingsSignOut extends SettingsState {
 //   final User user;

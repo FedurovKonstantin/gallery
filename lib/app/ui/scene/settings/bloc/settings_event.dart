@@ -15,6 +15,8 @@ class SettingsSave extends SettingsEvent {
   final String imageUrl;
   final String id;
   final File photo;
+  final String oldPassword;
+  final String oldEmail;
   final bool localImage;
 
   SettingsSave({
@@ -22,14 +24,17 @@ class SettingsSave extends SettingsEvent {
     this.birthday,
     this.localImage,
     this.email,
+    this.oldEmail,
     this.id,
     this.password,
+    this.oldPassword,
     this.imageUrl,
     this.photo,
   });
   @override
   // TODO: implement props
-  List<Object> get props => [name, birthday, email, password, imageUrl, id];
+  List<Object> get props =>
+      [name, birthday, email, password, imageUrl, id, oldEmail, oldPassword];
 }
 
 // class SettingsSignOut extends SettingsEvent {
@@ -38,8 +43,4 @@ class SettingsSave extends SettingsEvent {
 //   SettingsSignOut({this.user});
 // }
 
-// class SettingsDelete extends SettingsEvent {
-//   final User user;
-
-//   SettingsDelete({this.user});
-// }
+class SettingsDelete extends SettingsEvent {}

@@ -35,25 +35,41 @@ class FirebaseAuth {
     }
   }
 
-  Future updatePassword({String password}) async {
-    firebase_auth.User user = _auth.currentUser;
+  Future updateEmail({
+    String email,
+    String password,
+    String newEmail,
+  }) async {
+    firebase_auth.User user = await _auth.currentUser;
 
-    await user.updatePassword(password).then((_) {
-      print("Succesfull changed password");
-    }).catchError((error) {
-      print("Password can't be changed" + error.toString());
+    firebase_auth.AuthCredential credentials =
+        firebase_auth.EmailAuthProvider.credential(
+            email: email, password: password);
+
+    firebase_auth.UserCredential result =
+        await user.reauthenticateWithCredential(credentials);
+
+    await result.user.updateEmail(newEmail).then((_) {
+      print("Succesfull changed email");
     });
   }
 
-  Future updateEmail({
+  Future updatePassword({
     String email,
+    String password,
+    String newPassword,
   }) async {
-    firebase_auth.User user = _auth.currentUser;
+    firebase_auth.User user = await _auth.currentUser;
 
-    await user.updateEmail(email).then((_) {
+    firebase_auth.AuthCredential credentials =
+        firebase_auth.EmailAuthProvider.credential(
+            email: email, password: password);
+
+    firebase_auth.UserCredential result =
+        await user.reauthenticateWithCredential(credentials);
+
+    await result.user.updatePassword(newPassword).then((_) {
       print("Succesfull changed email");
-    }).catchError((error) {
-      print("Email can't be changed" + error.toString());
     });
   }
 

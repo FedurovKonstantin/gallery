@@ -23,10 +23,11 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Completer<void> _refreshCompleter;
-
+  User user;
   @override
   void initState() {
     _refreshCompleter = Completer<void>();
+    user = widget.user;
     super.initState();
   }
 
@@ -43,7 +44,7 @@ class _ProfileState extends State<Profile> {
             builder: (BuildContext context) => BlocProvider(
               create: (BuildContext context) => SettingsBloc(),
               child: Settings(
-                user: widget.user,
+                user: user,
               ),
             ),
           ),
@@ -58,6 +59,11 @@ class _ProfileState extends State<Profile> {
         },
         child: BlocConsumer<ProfileBloc, ProfileState>(
           listener: (context, state) {
+            if (state is ProfileSuccess) {
+              setState(() {
+                user = state.user;
+              });
+            }
             if (state != ProfileInitial()) {
               _refreshCompleter?.complete();
               _refreshCompleter = Completer();

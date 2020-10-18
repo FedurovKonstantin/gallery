@@ -42,10 +42,10 @@ class FirebaseDatabase {
         .snapshots();
   }
 
-  Future<List<Photo>> getPhotosbyUsersEmail({String email}) async {
+  Future<List<Photo>> getPhotosbyUsersId({String id}) async {
     try {
       var result =
-          await _photoCollection.where("creatorsEmail", isEqualTo: email).get();
+          await _photoCollection.where("creatorsId", isEqualTo: id).get();
       List<Photo> _photos = [];
       result.docs.forEach((e) {
         _photos.add(
@@ -58,6 +58,16 @@ class FirebaseDatabase {
     }
   }
 
+  Future updateEmailsbyPhoto({String email, String newEmail}) async {
+    var a =
+        await _photoCollection.where("creatorsEmail", isEqualTo: email).get();
+    a.docs.forEach((element) async {
+      await _photoCollection
+          .doc(element.data()["id"])
+          .update({"creatorsEmail": newEmail});
+    });
+  }
+
   Future<User> getUserData(
     String email,
   ) async {
@@ -65,10 +75,21 @@ class FirebaseDatabase {
       var result = await _userCollection.get();
       User user;
       result.docs.forEach((e) {
+        print(e.data()["email"]);
         if (e.data()["email"] == email) {
           user = User.fromJson(json: e.data());
         }
       });
+      return user;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<User> getUserDataById() async {
+    try {
+      var result = await _userCollection.doc(uid).get();
+      User user = User.fromJson(json: result.data());
       return user;
     } catch (e) {
       throw Exception(e);

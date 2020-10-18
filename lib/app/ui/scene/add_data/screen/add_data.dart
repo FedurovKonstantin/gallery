@@ -89,6 +89,7 @@ class _AddDataState extends State<AddData> {
                       name: _nameContorller.text,
                       description: _descriptionContorller.text,
                       email: widget.user.email,
+                      creatorsid: widget.user.id,
                       photo: widget.file,
                       tags: _tags
                           .where((element) => element.id != 'New')

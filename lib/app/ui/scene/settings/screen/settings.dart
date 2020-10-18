@@ -93,6 +93,8 @@ class _SettingsState extends State<Settings> {
                       birthday: _birthdayController.text,
                       email: _emailContoller.text,
                       photo: _image,
+                      oldEmail: widget.user.email,
+                      oldPassword: widget.user.password,
                       id: widget.user.id,
                     ));
               } else {
@@ -101,217 +103,225 @@ class _SettingsState extends State<Settings> {
                       password: _confirmPasswordController.text,
                       birthday: _birthdayController.text,
                       email: _emailContoller.text,
+                      oldEmail: widget.user.email,
                       imageUrl: imageUrl,
+                      oldPassword: widget.user.password,
                       id: widget.user.id,
                     ));
               }
             }
           },
         ),
-        body: SingleChildScrollView(
-          child: Center(
-            child: BlocConsumer<SettingsBloc, SettingsState>(
-              listener: (context, state) {
-                if (state is SettingsSavedSuccess) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return BlocProvider(
-                          create: (context) => SettingsBloc(),
-                          child: Settings(
-                            user: state.user,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              },
-              builder: (context, state) {
-                if (state is SettingsInitial) {
-                  return Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 1,
-                          color: grey,
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(21, context),
-                        ),
-                        localImage
-                            ? UserPhotoSettings(
-                                file: _image,
-                              )
-                            : UserPhoto(
-                                imageUrl: widget.user.imageUrl,
+        body: BlocConsumer<SettingsBloc, SettingsState>(
+          listener: (context, state) {
+            if (state is SettingsSavedSuccess) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return BlocProvider(
+                      create: (context) => SettingsBloc(),
+                      child: Settings(
+                        user: state.user,
+                      ),
+                    );
+                  },
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is SettingsInitial) {
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 1,
+                        color: grey,
+                      ),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(21, context),
+                      ),
+                      localImage
+                          ? UserPhotoSettings(
+                              file: _image,
+                            )
+                          : UserPhoto(
+                              imageUrl: widget.user.imageUrl,
+                            ),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(10, context),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          final image = await _imagePicker.getImage(
+                              source: ImageSource.gallery);
+                          setState(() {
+                            _image = File(image.path);
+                            localImage = true;
+                          });
+                        },
+                        child: Text(
+                          'Upload photo',
+                          style: Theme.of(context).textTheme.bodyText1.copyWith(
+                                color: grey,
+                                fontSize: Helpers.responsiveHeight(12, context),
                               ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(10, context),
                         ),
-                        GestureDetector(
-                          onTap: () async {
-                            final image = await _imagePicker.getImage(
-                                source: ImageSource.gallery);
-                            setState(() {
-                              _image = File(image.path);
-                              localImage = true;
-                            });
-                          },
-                          child: Text(
-                            'Upload photo',
-                            style:
-                                Theme.of(context).textTheme.bodyText1.copyWith(
-                                      color: grey,
-                                      fontSize:
-                                          Helpers.responsiveHeight(12, context),
-                                    ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(22, context),
-                        ),
-                        PersonalDataSettings(
-                          name: _nameContoller,
-                          birthday: _birthdayController,
-                          focus1: focus1,
-                          focus2: focus2,
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(39, context),
-                        ),
-                        EmailAdressSettings(
-                          focus2: focus2,
-                          focus3: focus3,
-                          email: _emailContoller,
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(39, context),
-                        ),
-                        PasswordSettings(
-                          formKey: _formKey,
-                          newPassword: _passwordController,
-                          oldPassword: _oldPasswordController,
-                          confirmPassword: _confirmPasswordController,
-                          focus3: focus3,
-                          focus4: focus4,
-                          pass: widget.user.password,
-                          focus5: focus5,
-                          saveFucntion: () {
-                            if (_formKey.currentState.validate() ||
-                                (_oldPasswordController.text.isEmpty &&
-                                    _passwordController.text.isEmpty &&
-                                    _confirmPasswordController.text.isEmpty)) {
-                              if (localImage) {
-                                context.bloc<SettingsBloc>().add(SettingsSave(
-                                      name: _nameContoller.text,
-                                      password: _confirmPasswordController.text,
-                                      birthday: _birthdayController.text,
-                                      email: _emailContoller.text,
-                                      photo: _image,
-                                      id: widget.user.id,
-                                    ));
-                              } else {
-                                context.bloc<SettingsBloc>().add(SettingsSave(
-                                      name: _nameContoller.text,
-                                      password: _confirmPasswordController.text,
-                                      birthday: _birthdayController.text,
-                                      email: _emailContoller.text,
-                                      imageUrl: imageUrl,
-                                      id: widget.user.id,
-                                    ));
-                              }
+                      ),
+                      (state.e != null ? Text(state.e) : Container()),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(22, context),
+                      ),
+                      PersonalDataSettings(
+                        name: _nameContoller,
+                        birthday: _birthdayController,
+                        focus1: focus1,
+                        focus2: focus2,
+                      ),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(39, context),
+                      ),
+                      EmailAdressSettings(
+                        focus2: focus2,
+                        focus3: focus3,
+                        email: _emailContoller,
+                      ),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(39, context),
+                      ),
+                      PasswordSettings(
+                        formKey: _formKey,
+                        newPassword: _passwordController,
+                        oldPassword: _oldPasswordController,
+                        confirmPassword: _confirmPasswordController,
+                        focus3: focus3,
+                        focus4: focus4,
+                        pass: widget.user.password,
+                        focus5: focus5,
+                        saveFucntion: () {
+                          if (_formKey.currentState.validate() ||
+                              (_oldPasswordController.text.isEmpty &&
+                                  _passwordController.text.isEmpty &&
+                                  _confirmPasswordController.text.isEmpty)) {
+                            if (localImage) {
+                              context.bloc<SettingsBloc>().add(SettingsSave(
+                                    name: _nameContoller.text,
+                                    password: _confirmPasswordController.text,
+                                    birthday: _birthdayController.text,
+                                    email: _emailContoller.text,
+                                    oldEmail: widget.user.email,
+                                    oldPassword: widget.user.password,
+                                    photo: _image,
+                                    id: widget.user.id,
+                                  ));
+                            } else {
+                              context.bloc<SettingsBloc>().add(SettingsSave(
+                                    name: _nameContoller.text,
+                                    password: _confirmPasswordController.text,
+                                    birthday: _birthdayController.text,
+                                    email: _emailContoller.text,
+                                    imageUrl: imageUrl,
+                                    oldEmail: widget.user.email,
+                                    oldPassword: widget.user.password,
+                                    id: widget.user.id,
+                                  ));
                             }
-                          },
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(39, context),
-                        ),
-                        EndBlockSettings(
-                          signOut: () async {
-                            await FirebaseAuth().logOut();
+                          }
+                        },
+                      ),
+                      SizedBox(
+                        height: Helpers.responsiveHeight(39, context),
+                      ),
+                      EndBlockSettings(
+                        signOut: () async {
+                          await FirebaseAuth().logOut();
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) => Welcome(),
+                              ),
+                              (route) => false);
+                        },
+                        delete: () async {
+                          bool flag = await showDialog(
+                              context: context,
+                              builder: (_) {
+                                return AlertDialog(
+                                  title: Text('Удаление аккаунта'),
+                                  content: Text(
+                                    'Вы действительно хотите удалить аккаунт?',
+                                  ),
+                                  actions: [
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(true);
+                                      },
+                                      child: Text("Yes"),
+                                    ),
+                                    FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop(false);
+                                      },
+                                      child: Text("No"),
+                                    ),
+                                  ],
+                                );
+                              });
+                          if (flag == true) {
+                            BlocProvider.of<SettingsBloc>(context)
+                                .add(SettingsDelete());
+                            await FirebaseAuth().deleteUser(
+                                widget.user.email, widget.user.password);
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (BuildContext context) => Welcome(),
                                 ),
                                 (route) => false);
-                          },
-                          delete: () async {
-                            bool flag = await showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return AlertDialog(
-                                    title: Text('Удаление аккаунта'),
-                                    content: Text(
-                                      'Вы действительно хотите удалить аккаунт?',
-                                    ),
-                                    actions: [
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(true);
-                                        },
-                                        child: Text("Yes"),
-                                      ),
-                                      FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop(false);
-                                        },
-                                        child: Text("No"),
-                                      ),
-                                    ],
-                                  );
-                                });
-                            if (flag == true) {
-                              await FirebaseAuth().deleteUser(
-                                  widget.user.email, widget.user.password);
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        Welcome(),
-                                  ),
-                                  (route) => false);
-                            }
-                          },
-                        ),
-                        SizedBox(
-                          height: Helpers.responsiveHeight(86, context),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                if (state is SettingsLoading) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(
-                        strokeWidth: 1,
-                        valueColor: new AlwaysStoppedAnimation<Color>(grey),
+                          }
+                        },
                       ),
                       SizedBox(
-                        height: Helpers.responsiveHeight(10, context),
-                      ),
-                      Text(
-                        'Loading...',
-                        style: Theme.of(context).textTheme.bodyText1.copyWith(
-                              fontSize: Helpers.responsiveHeight(17, context),
-                              color: grey,
-                            ),
+                        height: Helpers.responsiveHeight(86, context),
                       ),
                     ],
-                  );
-                }
-                if (state is SettingsFailure) {
-                  return Text(state.e);
-                }
-                return Container();
-              },
-            ),
-          ),
+                  ),
+                ),
+              );
+            }
+            if (state is SettingsLoading) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(
+                      strokeWidth: 1,
+                      valueColor: new AlwaysStoppedAnimation<Color>(grey),
+                    ),
+                    SizedBox(
+                      height: Helpers.responsiveHeight(10, context),
+                    ),
+                    Text(
+                      'Loading...',
+                      style: Theme.of(context).textTheme.bodyText1.copyWith(
+                            fontSize: Helpers.responsiveHeight(17, context),
+                            color: grey,
+                          ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            if (state is SettingsFailure) {
+              return Center(
+                child: Text('Error'),
+              );
+            }
+            return Container();
+          },
         ),
       ),
     );

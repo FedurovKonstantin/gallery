@@ -20,6 +20,7 @@ class AddTag extends AddDataEvent {
 class AddPhoto extends AddDataEvent {
   final String name;
   final String description;
+  final String creatorsid;
   final List<Tag> tags;
   final File photo;
   final String email;
@@ -27,6 +28,7 @@ class AddPhoto extends AddDataEvent {
     this.name,
     this.description,
     this.tags,
+    this.creatorsid,
     this.photo,
     this.email,
   });

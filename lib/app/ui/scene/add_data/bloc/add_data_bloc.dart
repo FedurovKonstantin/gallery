@@ -39,6 +39,7 @@ class AddDataBloc extends Bloc<AddDataEvent, AddDataState> {
             id: DateTime.now().toString(),
             category: [Category(title: 'New')],
             tags: event.tags,
+            creatorsId: event.creatorsid,
             createdDate: DateTime.now().toString(),
             viewCounter: 0,
             description: event.description,

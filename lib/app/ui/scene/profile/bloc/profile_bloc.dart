@@ -19,16 +19,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (event is ProfileFetchPhotos) {
       try {
         yield ProfileInitial();
-
-        List<Photo> photos = await FirebaseDatabase().getPhotosbyUsersEmail(
-          email: event.user.email,
+        User user =
+            await FirebaseDatabase(uid: event.user.id).getUserDataById();
+        List<Photo> photos = await FirebaseDatabase().getPhotosbyUsersId(
+          id: user.id,
         );
         int loaded = photos.length;
 
         yield ProfileSuccess(
           loaded: loaded,
           photos: photos,
-          user: event.user,
+          user: user,
         );
       } catch (e) {
         yield ProfileFailure(e: e.toString());

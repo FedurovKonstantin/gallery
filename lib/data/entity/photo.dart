@@ -9,6 +9,7 @@ class Photo {
   int viewCounter;
   String id;
   String creatorsEmail;
+  String creatorsId;
   List<Category> category;
   List<Tag> tags;
 
@@ -17,6 +18,7 @@ class Photo {
     this.description,
     this.imageUrl,
     this.id,
+    this.creatorsId,
     this.category,
     this.createdDate,
     this.viewCounter,
@@ -29,6 +31,7 @@ class Photo {
       description: json["description"],
       imageUrl: json["imageUrl"],
       id: json["id"],
+      creatorsId: json["creatorsId"],
       category: (json["category"] as List<dynamic>)
           .map((e) => Category(title: e))
           .toList(),
@@ -48,6 +51,7 @@ class Photo {
       "description": description,
       "imageUrl": imageUrl,
       "id": id,
+      "creatorsId": creatorsId,
       "createdDate": createdDate,
       "viewCounter": viewCounter,
       "category": category

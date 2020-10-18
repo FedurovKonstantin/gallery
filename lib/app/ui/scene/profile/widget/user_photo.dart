@@ -23,12 +23,22 @@ class UserPhoto extends StatelessWidget {
                 color: iconGrey,
               ),
             )
-          : CachedNetworkImage(
-              imageUrl: imageUrl,
-              placeholder: (context, url) => Image.asset(
-                'assets/profile_back.png',
-                color: iconGrey,
+          : Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: CachedNetworkImageProvider(imageUrl),
+                ),
               ),
+              // child: CachedNetworkImage(
+              //     imageUrl: imageUrl,
+              //     fit: BoxFit.fill,
+              //     placeholder: (context, url) => Image.asset(
+              //       'assets/profile_back.png',
+              //       color: iconGrey,
+              //     ),
+              //   ),
             ),
     );
   }
