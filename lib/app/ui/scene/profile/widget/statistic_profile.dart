@@ -5,13 +5,11 @@ import 'package:gallery/data/utils/helpers.dart';
 import 'package:gallery/repository/firebase/firebase_database.dart';
 
 class StatisticProfile extends StatelessWidget {
-  final int views;
   final int loaded;
   final String email;
 
   StatisticProfile({
     this.loaded,
-    this.views,
     this.email,
   });
 

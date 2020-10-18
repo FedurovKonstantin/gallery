@@ -8,13 +8,11 @@ import 'package:gallery/data/utils/helpers.dart';
 
 class UserInfoProfile extends StatelessWidget {
   final User user;
-  final int views;
   final int loaded;
 
   UserInfoProfile({
     this.user,
     this.loaded,
-    this.views,
   });
 
   @override
@@ -42,7 +40,6 @@ class UserInfoProfile extends StatelessWidget {
           height: Helpers.responsiveHeight(27, context),
         ),
         StatisticProfile(
-          views: views,
           loaded: loaded,
           email: user.email,
         ),

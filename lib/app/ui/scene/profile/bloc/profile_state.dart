@@ -11,7 +11,6 @@ class ProfileInitial extends ProfileState {}
 
 class ProfileSuccess extends ProfileState {
   final List<Photo> photos;
-  final int views;
   final User user;
   final int loaded;
 
@@ -19,11 +18,10 @@ class ProfileSuccess extends ProfileState {
     this.photos,
     this.loaded,
     this.user,
-    this.views,
   });
 
   @override
-  List<Object> get props => [photos, views, loaded, user];
+  List<Object> get props => [photos, loaded, user];
 }
 
 class ProfileLoading extends ProfileState {}

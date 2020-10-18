@@ -23,15 +23,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         List<Photo> photos = await FirebaseDatabase().getPhotosbyUsersEmail(
           email: event.user.email,
         );
-
-        int views = 0;
-        photos.forEach((element) {
-          views += element.viewCounter;
-        });
         int loaded = photos.length;
 
         yield ProfileSuccess(
-          views: views,
           loaded: loaded,
           photos: photos,
           user: event.user,

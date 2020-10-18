@@ -7,6 +7,8 @@ import 'package:gallery/app/ui/scene/main/widget/grid_item.dart';
 import 'package:gallery/app/ui/scene/profile/bloc/profile_bloc.dart';
 import 'package:gallery/app/ui/scene/profile/widget/profile_app_bar.dart';
 import 'package:gallery/app/ui/scene/profile/widget/user_info_profile.dart';
+import 'package:gallery/app/ui/scene/settings/bloc/settings_bloc.dart';
+import 'package:gallery/app/ui/scene/settings/screen/settings.dart';
 import 'package:gallery/data/entity/user.dart';
 import 'package:gallery/data/utils/helpers.dart';
 
@@ -34,7 +36,19 @@ class _ProfileState extends State<Profile> {
         MediaQuery.of(context).padding.top -
         ProfileAppBar().preferredSize.height * 2;
     return Scaffold(
-      appBar: ProfileAppBar(),
+      appBar: ProfileAppBar(
+        func: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => BlocProvider(
+              create: (BuildContext context) => SettingsBloc(),
+              child: Settings(
+                user: widget.user,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: RefreshIndicator(
         onRefresh: () {
           context
@@ -60,7 +74,6 @@ class _ProfileState extends State<Profile> {
                       children: [
                         UserInfoProfile(
                           user: state.user,
-                          views: state.views,
                           loaded: state.loaded,
                         ),
                         Expanded(
@@ -116,7 +129,6 @@ class _ProfileState extends State<Profile> {
                 children: [
                   UserInfoProfile(
                     user: state.user,
-                    views: state.views,
                     loaded: state.loaded,
                   ),
                   SizedBox(

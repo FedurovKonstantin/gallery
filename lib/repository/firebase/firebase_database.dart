@@ -13,6 +13,9 @@ class FirebaseDatabase {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference _photoCollection =
       FirebaseFirestore.instance.collection('photos');
+  Future deleteuser() {
+    return _userCollection.doc(uid).delete();
+  }
 
   Future updateUserData(
     String name,

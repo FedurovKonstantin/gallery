@@ -35,6 +35,46 @@ class FirebaseAuth {
     }
   }
 
+  Future updatePassword({String password}) async {
+    firebase_auth.User user = _auth.currentUser;
+
+    await user.updatePassword(password).then((_) {
+      print("Succesfull changed password");
+    }).catchError((error) {
+      print("Password can't be changed" + error.toString());
+    });
+  }
+
+  Future updateEmail({
+    String email,
+  }) async {
+    firebase_auth.User user = _auth.currentUser;
+
+    await user.updateEmail(email).then((_) {
+      print("Succesfull changed email");
+    }).catchError((error) {
+      print("Email can't be changed" + error.toString());
+    });
+  }
+
+  Future deleteUser(String email, String password) async {
+    try {
+      firebase_auth.User user = await _auth.currentUser;
+      firebase_auth.AuthCredential credentials =
+          firebase_auth.EmailAuthProvider.credential(
+              email: email, password: password);
+      firebase_auth.UserCredential result =
+          await user.reauthenticateWithCredential(credentials);
+      await FirebaseDatabase(uid: result.user.uid)
+          .deleteuser(); // called from database class
+      await result.user.delete();
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future<void> logOut() async {
     try {
       await Future.wait([

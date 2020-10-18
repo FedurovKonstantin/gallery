@@ -4,7 +4,6 @@ import 'package:gallery/data/utils/helpers.dart';
 
 class ProfileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function _func;
-
   ProfileAppBar({
     Function func,
   }) : _func = func;
