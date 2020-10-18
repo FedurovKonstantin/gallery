@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gallery/app/resources/app_colors.dart';
+import 'package:gallery/app/ui/scene/main/bloc/main_bloc.dart';
 import 'package:gallery/data/utils/helpers.dart';
 
 class MainAppBarTitle extends StatelessWidget {
   final TextEditingController search;
-
+  final Function filter;
   MainAppBarTitle({
     this.search,
+    this.filter,
   });
 
   @override
@@ -21,6 +24,10 @@ class MainAppBarTitle extends StatelessWidget {
               color: Colors.black,
             ),
         cursorColor: Colors.black,
+        onFieldSubmitted: (value) {
+          BlocProvider.of<MainBloc>(context)
+              .add(MainFetchPhotos(filter: value));
+        },
         decoration: InputDecoration(
           prefixIcon: Icon(
             Icons.search,

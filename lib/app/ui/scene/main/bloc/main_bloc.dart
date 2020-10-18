@@ -25,6 +25,14 @@ class MainBloc extends Bloc<MainEvent, MainState> {
         List<Photo> _popularPhotos = await FirebaseDatabase().getPhotos(
           category: Category(title: "Popular"),
         );
+        if (event.filter.trim().length != 0) {
+          _newPhotos = _newPhotos
+              .where((element) => element.title.contains(event.filter))
+              .toList();
+          _popularPhotos = _popularPhotos
+              .where((element) => element.title.contains(event.filter))
+              .toList();
+        }
         yield MainSuccess(
           newPhotos: _newPhotos,
           popularPhotos: _popularPhotos,

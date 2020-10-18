@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gallery/app/resources/app_colors.dart';
 import 'package:gallery/app/ui/scene/add_photo/screen/add_photo.dart';
 import 'package:gallery/app/ui/scene/main/screen/main.dart';
 import 'package:gallery/app/ui/scene/profile/bloc/profile_bloc.dart';
@@ -43,6 +44,7 @@ class _HomeState extends State<Home> {
         children: _pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: false,
         currentIndex: _currentPage,
         onTap: (index) {
           setState(
@@ -63,6 +65,7 @@ class _HomeState extends State<Home> {
           );
         },
         showSelectedLabels: false,
+        selectedItemColor: purple,
         items: [
           BottomNavigationBarItem(
             icon: Icon(

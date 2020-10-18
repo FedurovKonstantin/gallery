@@ -29,24 +29,24 @@ class _MainState extends State<Main> {
       length: 2,
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            title: MainAppBarTitle(
-              search: _search,
+        child: BlocProvider(
+          create: (context) => MainBloc()..add(MainFetchPhotos()),
+          child: Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              title: MainAppBarTitle(
+                search: _search,
+              ),
+              bottom: MainAppBarBottom(),
             ),
-            bottom: MainAppBarBottom(),
-          ),
-          body: Container(
-            padding: EdgeInsets.only(
-              top: Helpers.responsiveHeight(20, context),
-              left: Helpers.responsiveWidth(16, context),
-              right: Helpers.responsiveWidth(16, context),
-            ),
-            child: BlocProvider(
-              create: (context) => MainBloc()..add(MainFetchPhotos()),
+            body: Container(
+              padding: EdgeInsets.only(
+                top: Helpers.responsiveHeight(20, context),
+                left: Helpers.responsiveWidth(16, context),
+                right: Helpers.responsiveWidth(16, context),
+              ),
               child: TabBarView(
                 children: [
                   MainBodyTab(
